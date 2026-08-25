@@ -39,6 +39,12 @@ correction and the number that matters now (the rail leaves the roster
 is wrong by one. Worth checking the remaining three dead 720px blocks for
 the same trap before another lane deletes one and is surprised.
 
+> **Taken by R1 on PR #64** (`85f0441`), which replaced the count with the
+> instruction that actually helps — grep `tests/` for the selector before
+> deleting any media query — and named this instance as the reason. If
+> #64 lands first, this item is already closed; the note stays because it
+> is the evidence for the change rather than a second request for it.
+
 ## To S1, or whoever owns `:root` — a colour with no token
 
 `#7aa2f7` is a literal, written three times inside the skills block:
@@ -73,6 +79,15 @@ two different causes, one rule.
 The half of R1's note that DOES carry over is the one S1 wrote first: the
 walkthrough's pixel figures are unverified. Skills 7's `~22px` and `~14px`
 are physical off a 200% capture and measure 10 and 8 in CSS.
+
+There is a subtler half, and it is the one that nearly landed a wrong
+cause on two screens at once. R1's `14` was CSS px measured in the
+harness; the walkthrough's `~14` for READY is physical off a 200%
+capture, so 7 CSS against the 8 measured here. The two agreed only
+because they were in different units — and the agreement is what made an
+untrusted figure look like evidence. **A number you do not trust does not
+become evidence by agreeing with one you do.** Both lanes had been warned
+about that file's figures; the warning did not survive a coincidence.
 
 ## To S4 — `docs/smoke-checklist.md`, if it names any of these strings
 
