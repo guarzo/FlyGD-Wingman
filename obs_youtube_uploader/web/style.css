@@ -269,11 +269,12 @@ button.btn.acc {
 /* PRE-EXISTING, predates the purple retheme and is left alone by it:
    `button.btn:hover:not(:disabled)` above is (0,3,1) and beats
    `button.btn.acc` at (0,2,1), so hovering REPLACES the accent gradient
-   with the plain #242832 button fill. The rule below therefore brightens
-   that flat grey, not the brand -- and .acc:disabled's grayscale(.5) has
-   nothing coloured left to act on either. Both read as dead intent.
-   Verified against HEAD: the vermilion button behaved identically, so this
-   is not new. Not fixed here because making the gradient persist changes
+   with the plain #242832 button fill, so the brightness(1.08) below
+   brightens flat grey rather than the brand and is effectively dead. The
+   :disabled rule is NOT affected -- the hover selector carries
+   :not(:disabled), so a disabled accent button keeps its gradient and
+   grayscale(.5) acts on it as intended. Verified against HEAD: the
+   vermilion button behaved identically, so this is not new. Not fixed here because making the gradient persist changes
    how the most prominent button in the app looks on hover, which is a
    product call rather than a retheme one. No contrast issue either way:
    the hover state is --text on #242832, 12.2:1. */
