@@ -174,9 +174,31 @@ CSS the sparse card went 167px → 136px against the keybind card's 831px.
 The remaining difference is a card with one switch beside a card with
 eighteen rows, which is what the section is; no further edit was made.
 
+## To R1, and to whoever merges second — `dev.js`'s `inert_notes` collide
+
+R1 and R2 both need `inert_notes` on `dev.js`'s settings payload — R1 for
+the Uploader panel's `no_webhook` sentence, R2 for Previews' `previews_off`
+— and added it independently, five lines apart in the same object literal.
+
+**Git merges the two cleanly.** One literal, two `inert_notes` keys, last
+one wins, no warning from anything. Verified by test-merging `ui/r1` into
+`ui/r2`: no conflict, and the whole suite stayed green except the guard
+below, which was written after seeing it. `test_the_dev_harness_quotes_
+copy_pys_inert_notes_verbatim` passed on that tree, because both copies
+carry the right strings.
+
+`test_the_dev_harness_declares_each_payload_key_once` now fails on exactly
+that merge. **Whichever PR merges second drops its own copy of the key**;
+the test says so out loud instead of leaving it to be noticed. Neither copy
+is wrong and it does not matter which survives — they are the same two
+sentences, and both are asserted against `ui/copy.py`.
+
+Nothing else in the two branches interacts: the test-merged tree was 2040
+passed, 6 skipped, with that one failure.
+
 ## Two new lexical guards, in `tests/test_settings_page.py`
 
-Nothing in the suite renders the page, so both are source reads:
+Nothing in the suite renders the page, so all three are source reads:
 
 - **`test_the_page_never_types_a_version_number`** — M2's whole point. The
   markup may not carry a version-shaped literal at all; `__version__`

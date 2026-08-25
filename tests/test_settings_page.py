@@ -180,3 +180,38 @@ def test_the_dev_harness_quotes_copy_pys_inert_notes_verbatim():
         assert note in flat, (
             f"dev.js's inert_notes[{key!r}] has drifted from ui/copy.py"
         )
+
+
+def test_the_dev_harness_declares_each_payload_key_once():
+    """A duplicate key in an object literal is legal JavaScript. The last
+    one wins, nothing warns, and the fixture the harness renders is not the
+    one you are reading.
+
+    This is not hypothetical. R1 and R2 of round 2 both needed
+    `inert_notes` in dev.js's settings payload -- R1 for the Uploader
+    panel's no_webhook sentence, R2 for Previews' previews_off -- and added
+    it independently, five lines apart. Git merged the two cleanly, and the
+    test above still passed, because both copies carry the right strings.
+
+    Keys are checked across the whole file rather than per literal: dev.js
+    builds its doubles from flat literals, and a repeated key anywhere in
+    it is either this bug or a fixture shadowing another one.
+    """
+    dev_js = (WEB / "dev.js").read_text(encoding="utf-8")
+    payload = dev_js[dev_js.index("function settingsPayload") :]
+    payload = payload[: payload.index("\n  }")]
+
+    # The payload's own top-level keys sit at exactly six spaces; anything
+    # deeper belongs to a nested literal and may legitimately repeat (the
+    # fake characters are a list of same-shaped objects). Asserting the
+    # count first, because a regex that silently matches nothing is a test
+    # that passes for the wrong reason -- the trap the max-width:720px
+    # check in test_page_conventions.py records having fallen into.
+    keys = re.findall(r"(?m)^ {6}([a-z_][\w]*)\s*:", payload)
+    assert len(keys) >= 5, f"settingsPayload key scan found only {keys!r}"
+
+    dupes = sorted({k for k in keys if keys.count(k) > 1})
+    assert not dupes, (
+        "dev.js declares these settings-payload keys more than once, so the "
+        "harness renders whichever came last: " + repr(dupes)
+    )
