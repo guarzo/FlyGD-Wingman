@@ -2,9 +2,24 @@
 
 This ledger is cumulative. Task 1 freezes the merged PR #290 baseline, Task 2
 records the Preview observer, Task 3 records the bounded timing oracle and focused
-screenshot walks, and Task 4 records the complete local endpoint. Candidate hosted
-fields remain unfilled. Elapsed values below are observations only; none is a
-speedup, lower bound, p95, throughput, job, or critical-path claim.
+screenshot walks, Task 4 records the complete local endpoint, and Task 5 records
+the authorized hosted audit. The current Stage A hosted classification is
+**PASS** for exact provenance, scope, identities, outcomes, skips, and artifact
+integrity. Elapsed values below are observations only; none is a speedup,
+slowdown, lower bound, p95, throughput, runner-efficiency, job, or critical-path
+claim.
+
+## Current status
+
+- Frozen reviewed executable head:
+  `83bd018b6eeb29e159741258e8d979c7481d7d01`.
+- Published reviewed documentation and run head:
+  `3c3fe622f2a178805f4267d90d12aff61293b6d7`.
+- PR `#291`, run `36258907685`, attempt `1`: all three required jobs succeeded.
+- The five executable Stage A test files are byte-identical between the frozen
+  executable head, published head, and Actions synthetic checkout.
+- Hosted decision: **PASS**. No workflow rerun occurred. This evidence update is
+  committed locally only and is not pushed by this task.
 
 ## Authority and exact source identities
 
@@ -831,21 +846,186 @@ No production path changed.
 5. Which deferred-clear behavior passed the old nth-pair check but fails the new
    floor-interval state machine?
 
-## Publication authorization and current hold
+## Publication authorization and hosted evidence status
 
 The original pre-authorization stop was satisfied by the maintainer's later exact
 statement, `authorize remaining steps`. Together with the earlier explicit
 artifact consent and the current instruction to commit final approved artifact
 updates, this authorizes versioning the Stage A specification, plan, results, and
-evidence updates and authorizes the remaining publication/hosted-evidence steps.
-The document records that external authorization; it does not create or extend
-it.
+evidence updates and authorizes the publication/hosted-evidence sequence. The
+document records that external authorization; it does not create or extend it.
 
-The current execution instruction imposes a narrower operational hold: do not
-push, create or update a pull request, query or mutate remote state, dispatch or
-rerun Actions, or download candidate artifacts until the parent final reviewer
-has completed review. No such action occurred in this local pass. There is no
-Stage A candidate hosted outcome yet, and no hosted acceptance claim is made.
+The published reviewed head and successful run were supplied explicitly for this
+audit. Read-only GitHub API calls, job-log downloads, and artifact downloads were
+therefore performed. No workflow was dispatched or rerun, no PR was created or
+mutated, and no branch or evidence commit was pushed. The evidence update below
+is the only versioned change made by this task.
+
+## Task 5 authorized hosted evidence
+
+### Classification and authorities
+
+**PASS** — exact provenance, eight-path scope, frozen executable bytes, artifact
+integrity, ordered identities, outcomes, and normalized skips satisfy the Stage A
+contract. This is not a performance classification.
+
+| Authority | Exact value |
+|---|---|
+| Frozen executable head | `83bd018b6eeb29e159741258e8d979c7481d7d01` |
+| Published reviewed head / run head | `3c3fe622f2a178805f4267d90d12aff61293b6d7` |
+| PR | `#291`, open and unmerged, target `main` |
+| PR base | `463bccb07077325e64b6ad7f7ce4e9c100d2fcd6` |
+| Workflow run | `36258907685`, `pull_request`, attempt `1`, completed `success` |
+| Synthetic checkout | `5e9adb83e8ac175756b987da25eeec657c4d1a4d` |
+| Synthetic parents | base `463bccb0...`, then head `3c3fe622...` |
+
+The run reports `run_attempt=1`, so attempt `1` is the complete attempt history;
+there was no failed, cancelled, or replaced attempt. The run payload's
+`pull_requests` array is absent. Explicit current PR data instead binds PR `#291`
+to the exact head and base above. All three selected jobs report the same
+published head and succeeded:
+
+| Job | ID | Attempt | Conclusion | API job observation | API `Test` step observation |
+|---|---:|---:|---|---:|---:|
+| checks | `108450833147` | `1` | success | `13s` | n/a |
+| Ubuntu | `108450833121` | `1` | success | `263s` | `244s` |
+| Windows | `108450833027` | `1` | success | `638s` | `579s` |
+
+Each job log contains exactly one checkout line identifying `5e9adb8` as
+`Merge 3c3fe622f2a178805f4267d90d12aff61293b6d7 into
+463bccb07077325e64b6ad7f7ce4e9c100d2fcd6`; each following
+`git log -1 --format=%H` reports full synthetic SHA
+`5e9adb83e8ac175756b987da25eeec657c4d1a4d`. The fetched commit has exact
+`rev-list --parents` order synthetic, base, head.
+
+The base-to-synthetic and base-to-published diffs are each exactly the approved
+eight paths: this specification, plan, results ledger, and the five Stage A test
+files. All 13 protected files retain their frozen hashes and are byte-identical
+between base and synthetic checkout. The published head differs from frozen
+executable head only in the three approved documentation paths.
+
+The five executable files are byte-identical at frozen head, published head, and
+synthetic checkout:
+
+| Test path | SHA-256 |
+|---|---|
+| `tests/test_preview_runtime_review.py` | `0ea747c61ca9503f7fd807401c7711611ed720ca2c4bbae6bad947cf4d841543` |
+| `tests/test_preview_presentation.py` | `b4ecea2e2577643512b9261cb22f172a8cda282a1e2a4721f8d24872b244f72a` |
+| `tests/test_preview_geometry_publication.py` | `c4e778c2c3a317945f09f16ea73de92cd6e5ca7586b66457f42b6b94f9c08605` |
+| `tests/test_fleetsharing_timing.py` | `4ba2f78a9ce7e39f228eac1e585c3b2403f1dc747cfb1e16cd3c4a21c5a772d6` |
+| `tests/test_shoot_screens.py` | `8c92490031d475df429180979c2762f0d9ed1dde58e68008c524c2892f61e379` |
+
+### Artifact provenance and integrity
+
+Artifact selection required exact name, run, reviewed head, non-expired status,
+creation within its platform job window, and one unique match.
+
+| Platform | Artifact | API digest and downloaded ZIP SHA-256 | Created inside job window |
+|---|---:|---|---|
+| Ubuntu | `10911184052` | `6b6420e809e68479fac3d09f977ee357d17ddacc4a8ed13ecf6bc2aee8745de1` | `17:28:41Z` inside `17:24:24Z–17:28:47Z` |
+| Windows | `10911469146` | `87ddd048aa4fce06cd0d8600b0e7435a4bf92be5240477f2b190259eccf5b1a1` | `17:34:51Z` inside `17:24:24Z–17:35:02Z` |
+
+Each ZIP has exactly two members, `pytest-result.xml` and
+`pytest-timing.json`, and each extracted file is byte-identical to its ZIP
+member:
+
+| Candidate member | Bytes | SHA-256 |
+|---|---:|---|
+| Ubuntu XML | `2,492,737` | `d424fc56070656e88e6c1791e34de59c5aeaea81527c456c18c1d5321291acf6` |
+| Ubuntu timing JSON | `37,862` | `e41f9a0992dc1acfe028a92ebf02d6d057efd61e03d072315b92b9044c3cf6b7` |
+| Windows XML | `2,504,982` | `ee15029ce8a392d7af526c39093c8781cc0ebcf0b0e643d8d860ca0e77f4f6d7` |
+| Windows timing JSON | `39,380` | `f3b12200796084c028c11ae99f3115d48931c08880ca65379171054581afbce1` |
+
+The retained PR #290 baseline ZIPs and members were rehashed without modifying
+them; all six frozen hashes, exact two-member sets, and extracted/member equality
+still hold.
+
+### Exact hosted identities, outcomes, and skips
+
+Both candidate platform arrays equal their retained baseline arrays
+byte-for-order: exactly `16,609` unique IDs with final-newline SHA-256
+`f468ba1954d3ff0ab693dd721ff8a7a4d12266e16d8568035de4245a6c616100`.
+The global diff is exactly `+0/-0`. Each targeted file and cohort also has exact
+ordered baseline equality and `+0/-0`: Preview `4`, timing `1`, changed screenshot
+`8`, focused screenshot `27`, screenshot set `35`, file counts
+`20/15/17/41/220`, five files `313`, and relevant seven files `494`.
+
+| Platform | Passed | Skipped | Failures | Errors | Normalized ordered skip SHA-256 |
+|---|---:|---:|---:|---:|---|
+| Ubuntu | `16,595` | `14` | `0` | `0` | `14f1511f840fb2fdc1680123dde29a7143405829af97141d62c5099aa4f265af` |
+| Windows | `16,542` | `67` | `0` | `0` | `41a767f45f49215310104dc611a4e9b60e4cb251e90f850b80a6f3b1cd9bcfb6` |
+
+Candidate skip arrays equal the frozen baseline arrays exactly. Every Stage A
+target passed; no Node, settings-codec, or unexpected native-availability skip
+occurred. Timing JSON `case_count` is `16,609` on each platform, and every
+per-file count and duration sum agrees with JUnit within `1e-9`.
+
+### Hosted timing observations
+
+These are additive JUnit testcase sums from one baseline and one candidate run.
+They are kept separate from XML suite, pytest CLI, Test-step, and job measures.
+
+| Ubuntu cohort | Baseline | Candidate |
+|---|---:|---:|
+| Preview 4 | `20.043s` | `0.026s` |
+| Rolling timing 1 | `9.479s` | `2.471s` |
+| Changed screenshot 8 | `0.850s` | `0.218s` |
+| Focused screenshot 27 | `0.090s` | `0.059s` |
+| Screenshot 35 | `0.940s` | `0.277s` |
+| Five target files / 313 | `46.420s` | `17.345s` |
+| Relevant seven files / 494 | `68.237s` | `37.845s` |
+| Complete 16,609 | `268.312s` | `218.092s` |
+
+| Windows cohort | Baseline | Candidate |
+|---|---:|---:|
+| Preview 4 | `20.275s` | `0.119s` |
+| Rolling timing 1 | `13.320s` | `5.808s` |
+| Changed screenshot 8 | `8.907s` | `0.831s` |
+| Focused screenshot 27 | `0.195s` | `0.256s` |
+| Screenshot 35 | `9.102s` | `1.087s` |
+| Five target files / 313 | `67.784s` | `35.691s` |
+| Relevant seven files / 494 | `101.507s` | `75.204s` |
+| Complete 16,609 | `646.538s` | `540.385s` |
+
+| Candidate platform | Testcase sum | XML suite time | pytest CLI elapsed | API `Test` step | API job |
+|---|---:|---:|---:|---:|---:|
+| Ubuntu | `218.092s` | `240.128s` | `240.32s` | `244s` | `263s` |
+| Windows | `540.385s` | `573.510s` | `575.01s` | `579s` | `638s` |
+
+For comparison, the retained baseline remains Ubuntu `268.312s` testcase,
+`285.254s` XML, `287s` Test, and `307s` job; Windows `646.538s` testcase,
+`675.274s` XML, `680s` Test, and `741s` job. The side-by-side values are
+observational only.
+
+The leading candidate timing-JSON identities were Ubuntu `8.764s`
+`test_real_thread_preserves_inflight_start_and_queued_off_stop_through_io_failure[same-source]`,
+`5.032s` `test_real_thread_queued_off_stop_before_upgrade_survive_held_source_read`,
+and `5.007s` `test_shutdown_fences_controller_and_old_ingress_before_host_teardown`;
+Windows `9.677s`
+`test_native_node_boundary_counts_pair_containers_and_mapping_keys[yaml]`,
+`9.382s` `test_group_backward_page[focus-dialog-owners]`, and `9.323s`
+`test_real_thread_preserves_inflight_start_and_queued_off_stop_through_io_failure[same-source]`.
+The complete 30-identity arrays are retained in the external machine-readable
+audit report rather than interpreted as an improvement ranking.
+
+### Structural evidence and conclusion boundary
+
+The hosted audit does not infer structural work from elapsed time. Independent
+local acceptance remains exactly four trigger-helper uses and zero old
+disconnected waits; `2,101` production timing candidates, `2,101` commits, and
+`197,136` oracle checks; and `32` real screenshot walks with `105` visits in each
+lifetime-safe order.
+
+The persistent external report and machine-readable audit are under
+`/mnt/c/dev/flygd-wingman/tmp/stage-a-hosted-36258907685`; they are ignored local
+evidence, not versioned files.
+
+No discrepancy changes the **PASS** classification. The only provenance caveat
+is the absent run `pull_requests` array, resolved by explicit PR #291 data and
+three agreeing logs-primary checkout records. Single-run timing observations do
+not establish speedup, slowdown, lower bound, p95, throughput, runner efficiency,
+or critical-path causation. Stage B/C, workflow selection, budget enforcement,
+and sharding remain outside this decision.
 
 ## Appendix A — exact targeted identity lists
 
